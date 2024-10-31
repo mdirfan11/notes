@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: notes
+
+  #Data source specific configuration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/secure-notes
+    username: postgres
+    password: admin
+    driver-class-name: org.postgresql.Driver
+
+  #JPA specific configuration
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
