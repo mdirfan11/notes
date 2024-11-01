@@ -9,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 
@@ -20,7 +21,7 @@ public class NotesApplication {
 	}
 
 	//@Bean
-	public CommandLineRunner initDate(RoleRepository roleRepository, UserRepository userRepository) {
+	public CommandLineRunner initDate(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
 		return args -> {
 			Role userRole = roleRepository.findByRoleName(AppRole.ROLE_USER)
 					.orElseGet(() -> roleRepository.save(new Role(AppRole.ROLE_USER)));
@@ -29,7 +30,7 @@ public class NotesApplication {
 					.orElseGet(() -> roleRepository.save(new Role(AppRole.ROLE_ADMIN)));
 
 			if (!userRepository.existsByUserName("irfan1")) {
-				User user1 = new User("irfan1", "irfan1@gmail.com", "{noop}irfan1@123");
+				User user1 = new User("irfan1", "irfan1@gmail.com", passwordEncoder.encode("irfan1@123"));
 				user1.setAccountNonLocked(false);
 				user1.setAccountNonExpired(true);
 				user1.setCredentialsNonExpired(true);
@@ -43,7 +44,7 @@ public class NotesApplication {
 			}
 
 			if (!userRepository.existsByUserName("admin")) {
-				User admin = new User("admin", "admin@gmail.com", "{noop}admin@123");
+				User admin = new User("admin", "admin@gmail.com", passwordEncoder.encode("admin@123"));
 				admin.setAccountNonLocked(false);
 				admin.setAccountNonExpired(true);
 				admin.setCredentialsNonExpired(true);
